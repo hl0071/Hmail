@@ -10,7 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import static main.java.cn.whalien517.gui.Constants.*;
+import static main.java.cn.whalien517.gui.Constants.BTN_HEIGHT;
+import static main.java.cn.whalien517.gui.Constants.CBB_HEIGHT;
+import static main.java.cn.whalien517.gui.Constants.CBB_WIDTH;
+import static main.java.cn.whalien517.gui.Constants.CBB_Y;
+import static main.java.cn.whalien517.gui.Constants.LINE_WIDTH;
+import static main.java.cn.whalien517.gui.Constants.SERVERLOGO_HEIGHT;
+import static main.java.cn.whalien517.gui.Constants.SERVERLOGO_WIDTH;
+import static main.java.cn.whalien517.gui.Constants.SERVERLOGO_Y;
+import static main.java.cn.whalien517.gui.Constants.SERVERPANEL_HEIGHT;
+import static main.java.cn.whalien517.gui.Constants.SIDE_WIDTH;
 
 /**
  * @author Hwa
@@ -47,13 +56,14 @@ public class Main extends JFrame implements ActionListener {
 
     private final Vector<String> servers = new Vector<>();
 
-    public Main(){
-        prepareServers();
+    public Main() {
+        prepare();
         init();
         activateButton(btnCompose);
+        showChildFrame(btnCompose.getText());
     }
 
-    private void prepareServers() {
+    private void prepare() {
         servers.add("QQ邮箱");
         servers.add("WHU邮箱");
         servers.add("Gmail");
@@ -167,15 +177,17 @@ public class Main extends JFrame implements ActionListener {
     }
 
     private void activateButton(JButton btn) {
-        if(btn==activeBtn) return;
+        if (btn == activeBtn) return;
         disableBtn();
         activeBtn = btn;
         lblIndicator.setBounds(0, activeBtn.getY() + 25, 6, 30);
         activeBtn.setHorizontalAlignment(SwingConstants.CENTER);
         activeBtn.setHorizontalTextPosition(SwingConstants.LEFT);
+    }
 
-        CardLayout cl=(CardLayout)pnlChildFrame.getLayout();
-        cl.show(pnlChildFrame, btn.getText());
+    private void showChildFrame(String name) {
+        CardLayout cl = (CardLayout) pnlChildFrame.getLayout();
+        cl.show(pnlChildFrame, name);
     }
 
     private void disableBtn() {
@@ -203,8 +215,10 @@ public class Main extends JFrame implements ActionListener {
         Object key = e.getSource();
         if (key instanceof JButton) {
             JButton btn = (JButton) key;
-            if(sideMenu.contains(btn))
+            if (sideMenu.contains(btn)) {
                 activateButton(btn);
+                showChildFrame(btn.getText());
+            }
         }
     }
 
